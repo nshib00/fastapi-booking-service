@@ -49,4 +49,16 @@ class BookingsService(BaseService):
                 return new_booking.scalar()
             else:
                 return None
+
+    @classmethod     
+    async def find_all(cls, user_id: int):
+        async with async_session_maker() as session:
+            bookings_query = select(
+                Bookings.__table__.columns,
+                Rooms.image_id, Rooms.name, Rooms.description, Rooms.services
+                ).select_from(Bookings).join(
+                Rooms, Bookings.room_id == Rooms.id
+            ).filter(Bookings.user_id == user_id)
+            result = await session.execute(bookings_query)
+            return result.mappings().all()
         

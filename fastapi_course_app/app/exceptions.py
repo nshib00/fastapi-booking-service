@@ -18,6 +18,14 @@ class BookingUnauthorizedException(BookingHTTPException):
     status_code = status.HTTP_401_UNAUTHORIZED
 
 
+class BookingBadRequestException(BookingHTTPException):
+    status_code = status.HTTP_400_BAD_REQUEST
+
+
+class BookingNotFoundException(BookingHTTPException):
+    status_code = status.HTTP_404_NOT_FOUND
+
+
 class IncorrectEmailOrPasswordException(BookingUnauthorizedException):
     detail = 'Incorrect email or password.'
 
@@ -41,3 +49,11 @@ class UserNotExistsException(BookingUnauthorizedException):
 class RoomCannotBeBookedException(BookingHTTPException):
     status_code = status.HTTP_409_CONFLICT
     detail = 'There are no free rooms.'
+
+
+class DateFromBiggerThanDateToException(BookingBadRequestException):
+    detail = 'Date of ending of booking period cannot be bigger than date of its beginning.'
+
+
+class HotelNotExistsError(BookingNotFoundException):
+    detail = 'Hotel not exists.'

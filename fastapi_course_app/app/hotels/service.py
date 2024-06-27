@@ -1,17 +1,22 @@
 from datetime import date
-from sqlalchemy import and_, func, or_, select, text
-from app.hotels.rooms.models import Rooms
+from sqlalchemy import and_, func, or_, select
+from app.hotels.models import Hotels
 from app.service.base import BaseService
 from app.database import async_session_maker
 from app.bookings.models import Bookings
-from app.hotels.models import Hotels
+from app.hotels.rooms.models import Rooms
 
 
-class RoomsService(BaseService):
-    model = Rooms
+class HotelsService(BaseService):
+    model = Hotels
 
     @classmethod
-    async def find_all(cls, hotel_id: int, date_from: date, date_to: date, price: int = None, filter_operator: str = '='):
+    async def find_all(
+        cls,
+        location: str,
+        date_from: date,
+        date_to: date,
+    ):
         async with async_session_maker() as session:
             booked_rooms = select(Bookings).where(
                 or_(
@@ -19,11 +24,9 @@ class RoomsService(BaseService):
                     and_(Bookings.date_from <= date_from, Bookings.date_to > date_from)
                 )
             ).cte('booked_rooms')
-
-            dates_delta = (date_to - date_from).days
-            query = select(
-                Rooms.__table__.columns,
-                (Rooms.price * dates_delta).label('total_cost'),
+            
+            hotels_query = select(
+                Hotels.__table__.columns, 
                 (
                     func.sum(
                         Rooms.quantity - select(
@@ -33,14 +36,14 @@ class RoomsService(BaseService):
                 ).label('rooms_left')
             ).select_from(Hotels).join(
                 Rooms, Rooms.hotel_id == Hotels.id
-            ).filter_by(hotel_id=hotel_id).group_by(Rooms.id)
-            if price:
-                query = query.filter(text(f'Rooms.price {filter_operator} {price}'))
+            ).filter(
+                Hotels.location.ilike(f'%{location}%')
+            ).group_by(Hotels.id)
 
-            result = await session.execute(query)
+            result = await session.execute(hotels_query)
             result_list = []
+
             for record in result.mappings().all():
                 if record['rooms_left'] >= 1:
                     result_list.append(record)
             return result_list
-        

@@ -11,3 +11,10 @@ class BookingsSchema(BaseModel):
     price: int
     total_days: int
     total_cost: int
+
+
+class BookingsResponseSchema(BookingsSchema):
+    image_id: int
+    name: str
+    description: str
+    services: list[str]

@@ -22,7 +22,8 @@ class BaseService:
     async def find_all(cls, **filters):
         result = await cls.__get_result_query(**filters)
         return result.all()
-        
+    
+    
     @classmethod
     async def find_one_or_none(cls, **filters):
         result = await cls.__get_result_query(**filters)
@@ -40,12 +41,12 @@ class BaseService:
 
     @classmethod
     async def update(cls, model_id: int, **data):
-        query = update(cls.model).where(id == model_id).values(**data)
+        query = update(cls.model).where(cls.model.id == model_id).values(**data)
         await cls.__execute_query_with_commit(query)
 
     @classmethod
     async def delete(cls, model_id: int):
-        query = delete(cls.model).where(id == model_id)
+        query = delete(cls.model).where(cls.model.id == model_id)
         await cls.__execute_query_with_commit(query)
     
 
