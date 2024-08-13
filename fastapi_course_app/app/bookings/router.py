@@ -17,6 +17,7 @@ from app.exceptions import RoomCannotBeBookedException
 router = APIRouter(prefix='/bookings', tags=['Бронирования'])
 
 
+
 @router.get('')
 async def get_bookings(user: Users = Depends(get_current_user)): # -> list[BookingsResponseSchema]:
     return await BookingsService.find_all(user_id=user.id)

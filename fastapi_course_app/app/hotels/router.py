@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi_cache.decorator import cache
 
 from app.hotels.schemas import HotelsSchema, HotelsSchemaWithRoomsLeft, HotelsSearchArgs
 from app.hotels.service import HotelsService
@@ -9,6 +10,7 @@ router = APIRouter(tags=['Отели'], prefix='/hotels')
 
 
 @router.get('/{location}')
+@cache(expire=3600)
 async def get_hotels(location: str, search_args: HotelsSearchArgs = Depends()) -> list[HotelsSchemaWithRoomsLeft]:
     if search_args.date_from > search_args.date_to:
         raise DateFromBiggerThanDateToException

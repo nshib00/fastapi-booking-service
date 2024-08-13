@@ -31,7 +31,7 @@ class HotelsService(BaseService):
                     func.sum(
                         Rooms.quantity - select(
                             func.count(booked_rooms.c.room_id)
-                        ).where(booked_rooms.c.room_id == Rooms.id)
+                        ).where(booked_rooms.c.room_id == Rooms.id).scalar_subquery()
                     )
                 ).label('rooms_left')
             ).select_from(Hotels).join(
