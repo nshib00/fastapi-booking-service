@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Service</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/main.css') }}">
+</head>
+<body>
+    <div class="header">MyBookings</div>
+    <div>
+        {% for hotel in hotels %}
+        <div class="main-container flex">
+            <img src="{{ url_for('static', path='images/' + hotel.image_id|string + '.webp') }}" alt="Фото отеля" width="300">
+            <div class="inner-container">
+                <h2>{{ hotel.name }}</h2>
+                <h3>{{ hotel.location }}</h3>
+                <p>{{ hotel.services }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

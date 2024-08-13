@@ -1,0 +1,21 @@
+.flex {
+    display: flex;
+}
+
+.main-container {
+    margin-bottom: 15px;
+    margin-left: 180px;
+}
+
+.inner-container {
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+
+.header {
+    height: 60px;
+    font-size: 30px;
+    padding-bottom: 20px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+}
