@@ -12,9 +12,11 @@ from pathlib import Path
 path_for_alembic = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(path_for_alembic))
 
+from app.config import settings
 
 from app.database import Base
-from app.hotels.models import Hotels, Rooms
+from app.hotels.models import Hotels
+from app.hotels.rooms.models import Rooms
 from app.users.models import Users
 from app.bookings.models import Bookings
 from app.config import settings
