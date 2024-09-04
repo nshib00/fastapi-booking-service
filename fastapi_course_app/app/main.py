@@ -5,9 +5,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
+from sqladmin import Admin
 import uvicorn
 
+from admin.auth import admin_auth_backend
 from bookings.router import router as bookings_router
+from admin.views import ALL_ADMIN_VIEWS
 from users.router import users_router, auth_router
 from hotels.router import router as hotels_router
 from hotels.rooms.router import router as rooms_router
@@ -16,6 +19,7 @@ from pages.router import router as pages_router
 from images.router import router as images_router
 
 from config import settings
+from database import engine
 
 
 @asynccontextmanager
@@ -29,9 +33,14 @@ app = FastAPI(lifespan=lifespan)
 app.mount(path='/static', app=StaticFiles(directory='fastapi_course_app/app/static'), name='static')
 
 
-all_routers = (users_router, bookings_router, auth_router, hotels_router, rooms_router, pages_router, images_router)
-for router in all_routers:
+ALL_ROUTERS = (users_router, bookings_router, auth_router, hotels_router, rooms_router, pages_router, images_router)
+for router in ALL_ROUTERS:
     app.include_router(router)
+
+
+admin = Admin(app, engine, authentication_backend=admin_auth_backend)
+for admin_view in ALL_ADMIN_VIEWS:
+    admin.add_view(admin_view)
 
 
 
