@@ -1,7 +1,7 @@
 import shutil
 from fastapi import APIRouter, UploadFile
 
-from fastapi_course_app.app.tasks.tasks import process_image
+from app.tasks.tasks import process_image
 
 
 router = APIRouter(prefix='/images', tags=['Загрузка картинок'])

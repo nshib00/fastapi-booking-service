@@ -7,7 +7,7 @@ from app.bookings.service import BookingsService
 from app.users.dependencies import get_current_user
 from app.users.models import Users
 from app.exceptions import RoomCannotBeBookedException
-from fastapi_course_app.app.tasks.tasks import send_booking_confirmation_email
+from app.tasks.tasks import send_booking_confirmation_email
 
 
 router = APIRouter(prefix='/bookings', tags=['Бронирования'])
