@@ -1,13 +1,12 @@
 from pathlib import Path
 from PIL import Image
 from pathlib import Path
-import smtplib
 
 from pydantic import EmailStr
 
 from app.tasks.celery import celery
 from app.tasks.email_templates import create_booking_confirmation_message
-from app.config import settings
+from app.tasks.email_smtp import send_email_via_smtp
 
 
 @celery.task
@@ -32,6 +31,4 @@ def process_image(path: str) -> None:
 @celery.task
 def send_booking_confirmation_email(booking: dict, email_to: EmailStr) -> None:
     email = create_booking_confirmation_message(booking, email_to)
-    with smtplib.SMTP_SSL(host=settings.SMTP_HOST, port=settings.SMTP_PORT) as smtp_server:
-        smtp_server.login(user=settings.SMTP_USER, password=settings.SMTP_PASS)
-        smtp_server.send_message(email)
+    send_email_via_smtp(email)
