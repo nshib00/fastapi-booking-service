@@ -7,19 +7,26 @@ from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 from sqladmin import Admin
 import uvicorn
+import sys
+from pathlib import Path
 
-from admin.auth import admin_auth_backend
-from bookings.router import router as bookings_router
-from admin.views import ALL_ADMIN_VIEWS
-from users.router import users_router, auth_router
-from hotels.router import router as hotels_router
-from hotels.rooms.router import router as rooms_router
 
-from pages.router import router as pages_router
-from images.router import router as images_router
+app_path = Path(__file__).parent.parent
+sys.path.insert(0, str(app_path))
 
-from config import settings
-from database import engine
+
+from app.admin.auth import admin_auth_backend
+from app.bookings.router import router as bookings_router
+from app.admin.views import ALL_ADMIN_VIEWS
+from app.users.router import users_router, auth_router
+from app.hotels.router import router as hotels_router
+from app.hotels.rooms.router import router as rooms_router
+
+from app.pages.router import router as pages_router
+from app.images.router import router as images_router
+
+from app.config import settings
+from app.database import engine
 
 
 @asynccontextmanager

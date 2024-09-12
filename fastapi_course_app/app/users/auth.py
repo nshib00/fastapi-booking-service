@@ -28,6 +28,8 @@ def create_access_token(data: dict) -> str:
 
 async def authenticate_user(email: EmailStr, password: str):
     user = await UsersService.find_one_or_none(email=email)
+    if user is None:
+        return None
     if not user and not verify_password(password, user.password):
         return None
     return user

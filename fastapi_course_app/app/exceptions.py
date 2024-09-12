@@ -30,6 +30,11 @@ class IncorrectEmailOrPasswordException(BookingUnauthorizedException):
     detail = 'Incorrect email or password.'
 
 
+class NoPasswordException(BookingBadRequestException):
+    detail = 'Password is not specified.'
+
+
+
 class TokenExpiredException(BookingUnauthorizedException):
     detail = 'Token is expired.'
 
@@ -53,6 +58,10 @@ class RoomCannotBeBookedException(BookingHTTPException):
 
 class DateFromBiggerThanDateToException(BookingBadRequestException):
     detail = 'Date of ending of booking period cannot be bigger than date of its beginning.'
+
+
+class TooBigDateIntervalException(BookingBadRequestException):
+    detail = 'Interval between end date and begin date from cannot be more than 30 days.'
 
 
 class HotelNotExistsError(BookingNotFoundException):

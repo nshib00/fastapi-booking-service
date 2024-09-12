@@ -6,6 +6,7 @@ from app.users.auth import authenticate_user, create_access_token, get_password_
 from app.users.dependencies import get_current_user
 from app.users.models import Users
 from app.exceptions import IncorrectEmailOrPasswordException, UserAlreadyExistsException
+from app.exceptions import NoPasswordException
 
 
 auth_router = APIRouter(prefix='/auth', tags=['Аутентификация'])
@@ -17,12 +18,16 @@ async def register_user(user_data: UserAuthSchema):
     existing_user = await UsersService.find_one_or_none(email=user_data.email)
     if existing_user is not None:
         raise UserAlreadyExistsException
+    if not user_data.password:
+        raise NoPasswordException
     hashed_password = get_password_hash(user_data.password)
     await UsersService.add(email=user_data.email, hashed_password=hashed_password)
 
 
 @auth_router.post('/login')
 async def login_user(response: Response, user_data: UserAuthSchema):
+    if not user_data.password:
+        raise NoPasswordException
     user = await authenticate_user(email=user_data.email, password=user_data.password)
     if user is None:
         raise IncorrectEmailOrPasswordException
