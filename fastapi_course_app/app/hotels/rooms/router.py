@@ -1,11 +1,13 @@
 from app.hotels.rooms.schemas import RoomsSearchArgs
 from app.hotels.rooms.service import RoomsService
 from fastapi import APIRouter, Depends
+from fastapi_versioning import version
 
 router = APIRouter(prefix="/hotels", tags=["Комнаты отелей"])
 
 
 @router.get("/{hotel_id}/rooms")
+@version(1)
 async def get_hotel_rooms(
     hotel_id: int, search_args: RoomsSearchArgs = Depends()
 ):  # -> list[RoomsSchema]:

@@ -798,6 +798,22 @@ typer = ">=0.12.3"
 standard = ["fastapi", "uvicorn[standard] (>=0.15.0)"]
 
 [[package]]
+name = "fastapi-versioning"
+version = "0.10.0"
+description = "api versioning for fastapi web applications"
+optional = false
+python-versions = ">=3.6"
+groups = ["main"]
+files = [
+    {file = "fastapi_versioning-0.10.0-py3-none-any.whl", hash = "sha256:afe0ad7a56383b884c399341260bd3301b40e5a1cf9f6dc4211a349489087e1b"},
+    {file = "fastapi_versioning-0.10.0.tar.gz", hash = "sha256:5c18ea4e9ae1afd39c9e5bed1c240bf1cabdc75217579af78249ccb651c7b5b5"},
+]
+
+[package.dependencies]
+fastapi = ">=0.56.0"
+starlette = "*"
+
+[[package]]
 name = "filelock"
 version = "3.16.0"
 description = "A platform independent file lock."
@@ -3288,4 +3304,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "ae0bc899999d0b6a2e53781a990aea39da1e95bb63ce488688add9b318affb00"
+content-hash = "1e6e2e78c1605d1b3d13fc21f45875cad17847d29e23378606d32ebf89587636"

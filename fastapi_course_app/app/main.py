@@ -9,6 +9,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi_versioning import VersionedFastAPI
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
@@ -42,8 +43,6 @@ sentry_sdk.init(
 )
 
 app = FastAPI(lifespan=lifespan)
-app.mount(path="/static", app=StaticFiles(directory="fastapi_course_app/app/static"), name="static")
-
 
 ALL_ROUTERS = (
     users_router,
@@ -56,6 +55,14 @@ ALL_ROUTERS = (
 )
 for router in ALL_ROUTERS:
     app.include_router(router)
+
+app = VersionedFastAPI(
+    app,
+    version_format='{major}',
+    prefix_format='/api/v{major}'
+)
+
+app.mount(path="/static", app=StaticFiles(directory="fastapi_course_app/app/static"), name="static")
 
 
 admin = Admin(app, engine, authentication_backend=admin_auth_backend)
