@@ -1,21 +1,9 @@
-from typing import Type
-
 from app.database import async_session_maker
-from sqlalchemy import (
-    DeclarativeBase,
-    Delete,
-    Insert,
-    MappingResult,
-    Update,
-    delete,
-    insert,
-    select,
-    update,
-)
+from sqlalchemy import Delete, Insert, MappingResult, Update, delete, insert, select, update
 
 
 class BaseService:
-    model: Type[DeclarativeBase] | None = None
+    model = None
 
     @classmethod
     async def __get_result_query(cls, **filters) -> MappingResult:
