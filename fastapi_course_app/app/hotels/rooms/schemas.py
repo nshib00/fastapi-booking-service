@@ -1,4 +1,5 @@
 from datetime import date
+
 from pydantic import BaseModel
 
 
@@ -14,9 +15,10 @@ class RoomsSchema(BaseModel):
 
 
 class RoomsSearchArgs:
-    def __init__(self, date_from: date, date_to: date, price: int | None = None, filter_operator: str = '='):
+    def __init__(
+        self, date_from: date, date_to: date, price: int | None = None, filter_operator: str = "="
+    ):
         self.date_from = date_from
         self.date_to = date_to
         self.price = price
         self.filter_operator = filter_operator
-        

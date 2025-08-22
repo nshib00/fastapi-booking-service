@@ -1,4 +1,5 @@
 from datetime import date
+
 from fastapi import Query
 from pydantic import BaseModel
 
@@ -14,7 +15,7 @@ class HotelsSchema(BaseModel):
 
 class HotelsSchemaWithRoomsLeft(HotelsSchema):
     rooms_left: int = Query(ge=0)
-    
+
 
 class HotelsSearchArgs:
     def __init__(

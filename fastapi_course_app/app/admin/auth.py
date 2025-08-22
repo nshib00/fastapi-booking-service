@@ -1,10 +1,8 @@
+from app.config import settings
+from app.users.auth import authenticate_user, create_access_token
+from app.users.dependencies import get_current_user
 from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
-
-from app.config import settings
-from app.users.auth import authenticate_user
-from app.users.auth import create_access_token
-from app.users.dependencies import get_current_user
 
 
 class AdminAuth(AuthenticationBackend):
@@ -14,7 +12,7 @@ class AdminAuth(AuthenticationBackend):
 
         user = await authenticate_user(username, password)
         if user is not None:
-            access_token = create_access_token(data={'sub': str(user.id)})
+            access_token = create_access_token(data={"sub": str(user.id)})
             request.session.update({"token": access_token})
 
         return True
@@ -34,6 +32,6 @@ class AdminAuth(AuthenticationBackend):
             return False
 
         return True
-    
+
 
 admin_auth_backend = AdminAuth(secret_key=settings.SECRET_KEY)
