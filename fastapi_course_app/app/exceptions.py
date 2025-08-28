@@ -69,3 +69,7 @@ class HotelNotExistsError(BookingNotFoundException):
 
 class RoomNotExistsException(BookingNotFoundException):
     detail = "Room not exists."
+
+
+class IncorrectTableNameException(BookingBadRequestException):
+    detail = "Invalid table name. Possible variants: bookings, hotels, rooms."

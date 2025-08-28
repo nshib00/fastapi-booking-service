@@ -43,6 +43,15 @@ class BaseService:
         await cls.__execute_query_with_commit(query)
 
     @classmethod
+    async def add_many(cls, data_list: list[dict]):
+        if cls.model is None:
+            raise ValueError("Model is not defined")
+        if not data_list:
+            return
+        query = insert(cls.model).values(data_list)
+        await cls.__execute_query_with_commit(query)
+
+    @classmethod
     async def update(cls, model_id: int, **data):
         if cls.model is None:
             raise ValueError("Model is not defined")

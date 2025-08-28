@@ -25,6 +25,7 @@ from app.database import engine
 from app.hotels.rooms.router import router as rooms_router
 from app.hotels.router import router as hotels_router
 from app.images.router import router as images_router
+from app.importer.router import router as importer_router
 from app.pages.router import router as pages_router
 from app.users.router import auth_router, users_router
 
@@ -52,6 +53,7 @@ ALL_ROUTERS = (
     rooms_router,
     pages_router,
     images_router,
+    importer_router
 )
 for router in ALL_ROUTERS:
     app.include_router(router)
