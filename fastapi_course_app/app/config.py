@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Literal
 
 from dotenv import find_dotenv, load_dotenv
@@ -7,6 +8,8 @@ load_dotenv(find_dotenv())
 
 
 class Settings(BaseSettings):
+    BASE_DIR: Path = Path(__file__).resolve().parent.parent
+
     MODE: Literal["DEV", "TEST", "PROD"]
     LOG_LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR"]
 

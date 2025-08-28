@@ -62,7 +62,8 @@ app = VersionedFastAPI(
     prefix_format='/api/v{major}'
 )
 
-app.mount(path="/static", app=StaticFiles(directory="fastapi_course_app/app/static"), name="static")
+static_dir = settings.BASE_DIR / "app/static"
+app.mount(path="/static", app=StaticFiles(directory=static_dir), name="static")
 
 
 admin = Admin(app, engine, authentication_backend=admin_auth_backend)
