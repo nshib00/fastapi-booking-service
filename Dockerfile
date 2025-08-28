@@ -18,7 +18,7 @@ RUN pip3 install poetry
 RUN poetry config virtualenvs.create false \
     && poetry install --no-root
 
-COPY fastapi_course_app/app/docker/*.sh /app/docker/
+COPY ./fastapi_course_app/app/docker/*.sh /app/docker/
 
 COPY . .
 
