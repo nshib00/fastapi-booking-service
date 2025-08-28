@@ -1,5 +1,6 @@
 .env
 .env.*
 __pycache__
+.pytest_cache
 .idea
 fastapi_course_app/app/static/images/*
